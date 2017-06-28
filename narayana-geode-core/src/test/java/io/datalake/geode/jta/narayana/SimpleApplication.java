@@ -34,66 +34,82 @@ import javax.transaction.UserTransaction;
 import static org.apache.geode.cache.DataPolicy.PARTITION;
 
 /**
+ * Example uses the plain Geode API to create Global JTA transaction, enlisting Geode as Last Resource Commit.
+ * <p>
+ * 1. Use the OOTB standalone JNDI server: NamingBeanImpl.
+ * 2. Use plain Geode API to start Server and create Region.
+ * 3. Use the Narayana API to start and commit JTA transaction.
+ * 4. Use NarayanaGeodeSupport.enlistGeodeAsLastCommitResource() to enlist Geode as LRCO.
+ *
  * @author Christian Tzolov (christian.tzolov@gmail.com)
  */
 public class SimpleApplication {
 
+    private static int printLineCounter = 1;
+
+    // 1. Create standalone JNDI server
     private static NamingBeanImpl jndiServer = new NamingBeanImpl();
-
-    static {
-        try {
-            jndiServer.start();
-            // Bind JTA implementation with default names
-            JNDIManager.bindJTAImplementation();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
 
     public static void main(String[] args) throws Exception {
 
+        // 1.1 Start the JNDI server
+        jndiServer.start();
+
+        // 1.2.Bind JTA TM implementations with default names. Concerning Geode, this bind will register the
+        // Narayana Transaction Manager under name "java:/TransactionManager"
+        JNDIManager.bindJTAImplementation();
+
+        // 2 Create standalone Geode server
         ServerLauncher serverLauncher = new ServerLauncher.Builder()
                 .set("log-level", "info")
                 .set("jmx-manager", "false")
                 .set("jmx-manager-start", "false")
                 .setWorkingDirectory("target")
                 .setMemberName("server1")
-                .setSpringXmlLocation("src/test/resources/cache.xml")
+                //.setSpringXmlLocation("src/test/resources/cache.xml")
                 .setServerPort(40406)
                 .build();
 
+        // 2.1 Start Geode server
         serverLauncher.start();
 
+        // 2.2 Create Geode Cache
         Cache cache = new CacheFactory().create();
 
+        // 2.3 Create Geode region
         Region<String, Object> region = cache.<String, Object>createRegionFactory()
                 .setDataPolicy(PARTITION)
                 .create("testRegion");
 
-        UserTransaction ut = com.arjuna.ats.jta.UserTransaction.userTransaction();
+        // 3. Start Narayana JTA transaction
+        UserTransaction jta = com.arjuna.ats.jta.UserTransaction.userTransaction();
+        jta.begin();
 
-        System.out.println("1 = " + TXManagerImpl.getCurrentTXState());
+        geodeTxState("Before Enlisting");
 
-        ut.begin();
+        // 4. Enlist Geode as Last Resource Commit Resource
+        NarayanaGeodeSupport.enlistGeodeAsLastCommitResource();
 
-       // Thread.sleep(5000);
-        System.out.println("2 = " + TXManagerImpl.getCurrentTXState());
+        geodeTxState("After Enlisting");
 
-        //NarayanaGeodeSupport.enlistGeodeAsLastCommitResource();
-
-        System.out.println("3 = " + TXManagerImpl.getCurrentTXState());
-
-
+        // 5. Perform Geode put
         region.put("666", 666);
 
-        System.out.println("4 = " + TXManagerImpl.getCurrentTXState());
+        geodeTxState("After PUT");
 
-        ut.commit();
+        // 6. Commit the Narayana JTA transaction
+        jta.commit();
 
-        System.out.println("5 = " + TXManagerImpl.getCurrentTXState());
+        geodeTxState("After JTA Commit");
 
+        // 7. Stop the Geode server
         serverLauncher.stop();
+
+        // 8. Stop the JNDI server
         jndiServer.stop();
+    }
+
+    private static void geodeTxState(String description) {
+        System.out.printf("%s. TXState %s: %s \n", (printLineCounter++), description, TXManagerImpl.getCurrentTXState());
     }
 }
