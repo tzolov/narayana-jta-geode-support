@@ -14,10 +14,9 @@
     <properties>
         <java.version>1.8</java.version>
         <version.jnpserver>5.0.3.GA</version.jnpserver>
-        <gemfire.version>9.0.4</gemfire.version>
-        <geode.version>1.1.1</geode.version>
         <spring.version>4.3.9.RELEASE</spring.version>
         <slf4j.version>1.7.25</slf4j.version>
+        <narayana.version>5.5.24.Final</narayana.version>
     </properties>
 
     <dependencies>
@@ -26,14 +25,12 @@
             <artifactId>narayana-geode-core</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
-
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>1.1.11</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
@@ -52,7 +49,6 @@
             <version>${slf4j.version}</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.jboss</groupId>
             <artifactId>jboss-transaction-spi</artifactId>
@@ -69,69 +65,60 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>org.jboss.narayana.jta</groupId>
             <artifactId>jdbc</artifactId>
-            <version>5.5.24.Final</version>
+            <version>${narayana.version}</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.jboss.narayana.jta</groupId>
             <artifactId>jms</artifactId>
-            <version>5.5.24.Final</version>
+            <version>${narayana.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.narayana.jta</groupId>
             <artifactId>jta</artifactId>
-            <version>5.5.24.Final</version>
+            <version>${narayana.version}</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.jboss.narayana.jts</groupId>
             <artifactId>narayana-jts-integration</artifactId>
-            <version>5.5.24.Final</version>
+            <version>${narayana.version}</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>javax.transaction</groupId>
             <artifactId>javax.transaction-api</artifactId>
             <version>1.2</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${spring.version}</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
             <version>${spring.version}</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
             <version>1.8.10</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-jdbc</artifactId>
             <version>8.5.15</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
@@ -155,11 +142,11 @@
             <name>Pivotal GemFire Release Repository</name>
             <url>https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire</url>
         </repository>
-
         <repository>
             <id>jboss-release</id>
             <name>JBoss Release</name>
             <url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
         </repository>
     </repositories>
+
 </project>

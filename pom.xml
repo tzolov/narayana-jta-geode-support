@@ -11,18 +11,40 @@
 
     <properties>
         <gemfire.version>9.0.4</gemfire.version>
+        <geode.version>1.1.1</geode.version>
         <version.jnpserver>5.0.3.GA</version.jnpserver>
         <narayana.version>5.6.2.Final</narayana.version>
         <jboss-transaction-spi.version>7.5.2.Final</jboss-transaction-spi.version>
         <version.junit>4.11</version.junit>
     </properties>
 
-
     <modules>
         <module>narayana-geode-core</module>
         <module>narayana-geode-springboot</module>
         <module>narayana-geode-example-app</module>
     </modules>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:https://github.com/tzolov/narayana-jta-geode-support</connection>
+        <developerConnection>scm:git:git@github.com:tzolov/narayana-jta-geode-support.git</developerConnection>
+        <url>https://github.com/tzolov/narayana-jta-geode-support</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>bintray-bigdata</id>
+            <url>https://api.bintray.com/maven/big-data/maven/narayana-jta-geode-support</url>
+        </repository>
+    </distributionManagement>
 
     <dependencyManagement>
         <dependencies>
@@ -112,5 +134,39 @@
         </plugins>
     </build>
 
-
+    <profiles>
+        <profile>
+            <id>geode</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <distribution.type>geode-${geode.version}</distribution.type>
+            </properties>
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.geode</groupId>
+                        <artifactId>geode-core</artifactId>
+                        <version>${geode.version}</version>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+        </profile>
+        <profile>
+            <id>gemfire</id>
+            <properties>
+                <distribution.type>gemfire-${gemfire.version}</distribution.type>
+            </properties>
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>io.pivotal.gemfire</groupId>
+                        <artifactId>geode-core</artifactId>
+                        <version>${gemfire.version}</version>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+        </profile>
+    </profiles>
 </project>

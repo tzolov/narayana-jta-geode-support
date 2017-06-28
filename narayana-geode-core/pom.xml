@@ -13,6 +13,8 @@
 
     <artifactId>narayana-geode-core</artifactId>
 
+    <name>narayana-geode-core</name>
+
     <properties>
         <gemfire.version>9.0.4</gemfire.version>
         <version.jnpserver>5.0.3.GA</version.jnpserver>
@@ -21,7 +23,6 @@
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>org.jboss.narayana.jta</groupId>
             <artifactId>narayana-jta</artifactId>
@@ -43,15 +44,33 @@
         </dependency>
 
         <dependency>
-            <groupId>io.pivotal.gemfire</groupId>
-            <artifactId>geode-core</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
-
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>geode</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.apache.geode</groupId>
+                    <artifactId>geode-core</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>gemfire</id>
+            <dependencies>
+                <dependency>
+                    <groupId>io.pivotal.gemfire</groupId>
+                    <artifactId>geode-core</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 
 </project>
