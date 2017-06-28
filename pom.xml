@@ -21,7 +21,7 @@
     <modules>
         <module>narayana-geode-core</module>
         <module>narayana-geode-springboot</module>
-        <module>narayana-geode-example-app</module>
+        <!--<module>narayana-geode-example-app</module>-->
     </modules>
 
     <licenses>
