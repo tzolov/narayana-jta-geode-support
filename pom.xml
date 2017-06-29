@@ -6,7 +6,7 @@
     <groupId>io.datalake.geode.jta</groupId>
     <artifactId>narayana-geode-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.1.1-SNAPSHOT</version>
+    <version>0.1.2-SNAPSHOT</version>
 
     <properties>
         <gemfire.version>9.0.4</gemfire.version>
@@ -15,6 +15,7 @@
         <narayana.version>5.6.2.Final</narayana.version>
         <jboss-transaction-spi.version>7.5.2.Final</jboss-transaction-spi.version>
         <version.junit>4.11</version.junit>
+        <java.version>1.8</java.version>
     </properties>
 
     <modules>
@@ -110,14 +111,27 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <useReleaseProfile>false</useReleaseProfile>
+                    <releaseProfiles>release</releaseProfiles>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
                 </configuration>
             </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
     <profiles>

@@ -4,7 +4,7 @@
     <parent>
         <artifactId>narayana-geode-parent</artifactId>
         <groupId>io.datalake.geode.jta</groupId>
-        <version>0.1.1-SNAPSHOT</version>
+        <version>0.1.2-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
