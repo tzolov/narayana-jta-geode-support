@@ -6,13 +6,13 @@
     <parent>
         <artifactId>narayana-geode-parent</artifactId>
         <groupId>io.datalake.geode.jta</groupId>
-        <version>0.1.3-SNAPSHOT</version>
+        <version>0.1.3</version>
     </parent>
 
     <artifactId>narayana-geode-core</artifactId>
 
     <name>narayana-geode-core</name>
-    <version>0.1.3-SNAPSHOT</version>
+    <version>0.1.3</version>
 
     <properties>
         <gemfire.version>9.0.4</gemfire.version>
