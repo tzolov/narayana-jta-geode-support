@@ -13,8 +13,7 @@
     </parent>
 
     <artifactId>narayana-geode-example-app</artifactId>
-
-    <version>0.1.1-SNAPSHOT</version>
+    <version>0.1.3-SNAPSHOT</version>
 
     <properties>
         <java.version>1.8</java.version>
@@ -24,7 +23,7 @@
         <dependency>
             <groupId>io.datalake.geode.jta</groupId>
             <artifactId>narayana-geode-springboot</artifactId>
-            <version>0.1.1-SNAPSHOT</version>
+            <version>0.1.2</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.shell</groupId>
@@ -116,5 +115,16 @@
             </repositories>
         </profile>
     </profiles>
+
+    <repositories>
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>bintray-big-data-maven</id>
+            <name>bintray</name>
+            <url>http://dl.bintray.com/big-data/maven</url>
+        </repository>
+    </repositories>
 
 </project>
