@@ -56,7 +56,7 @@
     <modules>
         <module>narayana-geode-core</module>
         <module>narayana-geode-springboot</module>
-        <!--<module>narayana-geode-springboot-example</module>-->
+        <module>narayana-geode-springboot-example</module>
     </modules>
 
     <dependencyManagement>
