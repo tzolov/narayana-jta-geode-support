@@ -27,7 +27,7 @@ import org.apache.geode.cache.CacheFactory;
 import org.apache.geode.cache.Region;
 import org.apache.geode.distributed.ServerLauncher;
 import org.apache.geode.internal.cache.TXManagerImpl;
-import org.jnp.server.NamingBeanImpl;
+import org.jnp.server.SingletonNamingServer;
 
 import javax.transaction.UserTransaction;
 
@@ -36,7 +36,7 @@ import static org.apache.geode.cache.DataPolicy.PARTITION;
 /**
  * Example uses the plain Geode API to create Global JTA transaction, enlisting Geode as Last Resource Commit.
  * <p>
- * 1. Use the OOTB standalone JNDI server: NamingBeanImpl.
+ * 1. Use the OOTB standalone JNDI server: SingletonNamingServer.
  * 2. Use plain Geode API to start Server and create Region.
  * 3. Use the Narayana API to start and commit JTA transaction.
  * 4. Use NarayanaGeodeSupport.enlistGeodeAsLastCommitResource() to enlist Geode as LRCO.
@@ -48,14 +48,14 @@ public class SimpleApplication {
     private static int printLineCounter = 1;
 
     // 1. Create standalone JNDI server
-    private static NamingBeanImpl jndiServer = new NamingBeanImpl();
+    private static SingletonNamingServer jndiServer;
 
     public static void main(String[] args) throws Exception {
 
-        // 1.1 Start the JNDI server
-        jndiServer.start();
+        // 1. Bootstrap a standalone JNDI server
+        jndiServer = new SingletonNamingServer();
 
-        // 1.2.Bind JTA TM implementations with default names. Concerning Geode, this bind will register the
+        // 1.1. Bind JTA TM implementations with default names. Concerning Geode, this bind will register the
         // Narayana Transaction Manager under name "java:/TransactionManager"
         JNDIManager.bindJTAImplementation();
 
@@ -92,7 +92,7 @@ public class SimpleApplication {
 
         geodeTxState("After Enlisting");
 
-        // 5. Perform Geode put
+        // 5. Perform Geode operations
         region.put("666", 666);
 
         geodeTxState("After PUT");
@@ -106,7 +106,7 @@ public class SimpleApplication {
         serverLauncher.stop();
 
         // 8. Stop the JNDI server
-        jndiServer.stop();
+        jndiServer.destroy();
     }
 
     private static void geodeTxState(String description) {

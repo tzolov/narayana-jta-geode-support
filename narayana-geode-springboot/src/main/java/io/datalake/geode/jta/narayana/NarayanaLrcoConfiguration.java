@@ -21,6 +21,10 @@
 
 package io.datalake.geode.jta.narayana;
 
+import org.jnp.server.NamingServer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportAware;
@@ -34,7 +38,7 @@ import java.util.Optional;
 /**
  * The {@link NarayanaLrcoConfiguration} is a Spring {@link Configuration @Configuration}
  * annotated class used to configure the Geode's "Last Resource Commit Optimization" {@link org.aspectj.lang.annotation.Aspect Aspects}.
- *
+ * <p>
  * Note: The {@link org.springframework.core.annotation.Order} management implementation here is copied
  * from John Blum's SDG LR work.
  *
@@ -43,6 +47,8 @@ import java.util.Optional;
 @Configuration
 @SuppressWarnings("unused")
 public class NarayanaLrcoConfiguration implements ImportAware {
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private Integer enableTransactionManagementOrder;
 
@@ -107,5 +113,20 @@ public class NarayanaLrcoConfiguration implements ImportAware {
         geodeLastResourceCommitAspect.setOrder(order);
 
         return geodeLastResourceCommitAspect;
+    }
+
+    @Bean
+    public GeodeDependsOnBeanFactoryPostProcessor gemfireDependsOnBeanFactoryPostProcessor() {
+        return new GeodeDependsOnBeanFactoryPostProcessor().add("NarayanaNamingServer");
+    }
+
+    // Starts standalone JNDI server used by Gemfire to lookup global transactions.
+    // Gemfire uses JNDI java:/TransactionManager name to lookup the JTA transaction manager.
+    // The narayanaNamingServer also pre-bind all narayana transaction managers.
+    @Bean(name = "NarayanaNamingServer")
+    @ConditionalOnMissingBean(NamingServer.class)
+    public NarayanaNamingServerFactoryBean narayanaNamingServer() {
+        logger.info("Start standalone JNDI and bind narayana TM");
+        return new NarayanaNamingServerFactoryBean();
     }
 }

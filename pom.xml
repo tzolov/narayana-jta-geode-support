@@ -7,21 +7,14 @@
     <packaging>pom</packaging>
     <version>0.1.6-SNAPSHOT</version>
 
-    <properties>
-        <gemfire.version>9.0.4</gemfire.version>
-        <geode.version>1.1.1</geode.version>
-        <version.jnpserver>5.0.3.GA</version.jnpserver>
-        <narayana.version>5.6.2.Final</narayana.version>
-        <jboss-transaction-spi.version>7.5.2.Final</jboss-transaction-spi.version>
-        <version.junit>4.11</version.junit>
-        <java.version>1.8</java.version>
-    </properties>
-
-    <modules>
-        <module>narayana-geode-core</module>
-        <module>narayana-geode-springboot</module>
-        <!--<module>narayana-geode-example-app</module>-->
-    </modules>
+    <developers>
+        <developer>
+            <name>Christian Tzolov</name>
+            <email>christian.tzolov@gmail.com</email>
+            <organization>Datalake.io</organization>
+            <organizationUrl>http://datalake.io</organizationUrl>
+        </developer>
+    </developers>
 
     <licenses>
         <license>
@@ -44,6 +37,22 @@
             <url>https://api.bintray.com/maven/big-data/maven/narayana-jta-geode-support/;publish=1</url>
         </repository>
     </distributionManagement>
+
+    <properties>
+        <gemfire.version>9.0.4</gemfire.version>
+        <geode.version>1.1.1</geode.version>
+        <version.jnpserver>5.0.3.GA</version.jnpserver>
+        <narayana.version>5.6.2.Final</narayana.version>
+        <jboss-transaction-spi.version>7.5.2.Final</jboss-transaction-spi.version>
+        <version.junit>4.11</version.junit>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <modules>
+        <module>narayana-geode-core</module>
+        <module>narayana-geode-springboot</module>
+        <!--<module>narayana-geode-springboot-example</module>-->
+    </modules>
 
     <dependencyManagement>
         <dependencies>

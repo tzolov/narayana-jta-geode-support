@@ -32,7 +32,7 @@ import org.apache.geode.cache.Region;
 import org.apache.geode.distributed.ServerLauncher;
 import org.apache.geode.internal.cache.TXManagerImpl;
 import org.apache.geode.internal.cache.TXStateProxy;
-import org.jnp.server.NamingBeanImpl;
+import org.jnp.server.SingletonNamingServer;
 import org.junit.*;
 
 import javax.transaction.NotSupportedException;
@@ -52,18 +52,14 @@ import static org.junit.Assert.assertThat;
  */
 public class TestCase {
 
-    private static NamingBeanImpl jndiServer;
-
+    private static SingletonNamingServer jndiServer;
     private ServerLauncher serverLauncher;
-
     private Region<String, Object> region;
     private TransactionManager transactionManager;
 
     @BeforeClass
     public static void beforeClass() throws Exception {
-        jndiServer = new NamingBeanImpl();
-
-        jndiServer.start();
+        jndiServer = new SingletonNamingServer();
         // Bind JTA implementation with default names
         JNDIManager.bindJTAImplementation();
     }
@@ -102,11 +98,11 @@ public class TestCase {
 
     @AfterClass
     public static void afterClass() throws Exception {
-        jndiServer.stop();
+        jndiServer.destroy();
     }
 
     @Test
-    public void geodeAsLRCO() throws Exception {
+    public void lastResourceCommitOptimization() throws Exception {
         TransactionImple tx = (TransactionImple) transactionManager.getTransaction();
 
         assertThat("At this point NarayanaGeodeLastCommitResource MUST NOT be enlisted as LRCO Resource!",
@@ -127,7 +123,6 @@ public class TestCase {
         // Internally Gemfire treats the LRCO mode as JCA use case.
         assertThat(getCacheTransactionManagerCurrentTXState().isJCATransaction(), is(true));
 
-
         // Geode transactional operation
         region.put("666", 666);
 
@@ -137,11 +132,13 @@ public class TestCase {
                         " should NOT register a Geode TXStateProxy (as Synchronization) in JTA's transaction!",
                 atomicAction.getSynchronizations().size(), is(0));
 
+        // Geode enlisted as LRCO should behave as JCA and not JTA sync
         assertThat(getCacheTransactionManagerCurrentTXState().isJCATransaction(), is(true));
+        assertThat(isJTA(getCacheTransactionManagerCurrentTXState()), is(false));
     }
 
     @Test
-    public void geodeNotLrcoMode() throws Exception {
+    public void nonLastResourceCommitOptimization() throws Exception {
 
         Transaction tx = (Transaction) transactionManager.getTransaction();
 
@@ -161,6 +158,7 @@ public class TestCase {
                         "Registered before the first Geode operation",
                 atomicAction.getSynchronizations().size(), is(0));
 
+
         // Perform Geode Operation inside the transaction.
         region.put("666", 666);
 
@@ -172,13 +170,21 @@ public class TestCase {
                         "registered JTA Synchronizations",
                 synchonizations.values().iterator().next(), containsString("TXStateProxy"));
 
+        // Geode NOT enlisted as LRCO should behave as JTA sync resource and NOT as JCA resource.
         assertThat(getCacheTransactionManagerCurrentTXState().isJCATransaction(), is(false));
+        assertThat(isJTA(getCacheTransactionManagerCurrentTXState()), is(true));
     }
 
     public static AtomicAction extractTheAtomicAction(Object aaObject) throws Exception {
         Field f = aaObject.getClass().getDeclaredField("_theTransaction");
         f.setAccessible(true);
         return (AtomicAction) f.get(aaObject);
+    }
+
+    public static boolean isJTA(Object aaObject) throws Exception {
+        Field f = aaObject.getClass().getDeclaredField("isJTA");
+        f.setAccessible(true);
+        return (Boolean) f.get(aaObject);
     }
 
     public static TXStateProxy getCacheTransactionManagerCurrentTXState() {

@@ -21,22 +21,24 @@
 
 package io.datalake.geode.jta.narayana.example;
 
-import com.arjuna.ats.jta.utils.JNDIManager;
-import io.datalake.geode.jta.narayana.NarayanaLastResourceCommitOptimization;
+import io.datalake.geode.jta.narayana.NarayanaNamingServerFactoryBean;
 import org.apache.geode.cache.Cache;
 import org.apache.geode.cache.CacheFactory;
 import org.apache.geode.cache.Region;
 import org.apache.geode.distributed.ServerLauncher;
-import org.jnp.server.NamingBeanImpl;
+import org.jnp.server.NamingServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.annotation.PostConstruct;
+import javax.transaction.TransactionManager;
 
 import static org.apache.geode.cache.DataPolicy.PARTITION;
 
@@ -44,21 +46,21 @@ import static org.apache.geode.cache.DataPolicy.PARTITION;
  * @author Christian Tzolov (christian.tzolov@gmail.com)
  */
 @SpringBootApplication
-@NarayanaLastResourceCommitOptimization
+//@NarayanaLastResourceCommitOptimization
 @EnableTransactionManagement(order = 1)
 public class SampleNarayanaApplication implements CommandLineRunner {
 
     private static final Logger LOG = LoggerFactory.getLogger(SampleNarayanaApplication.class);
 
-    // Standalone JNDI server used by Gemfire to lookup global transactions.
-    private static final NamingBeanImpl jndiServer = new NamingBeanImpl();
-
-    @PostConstruct
-    public void registerNarayanaUserTransaction() throws Exception {
-        // Gemfire uses JNDI java:/TransactionManager name to lookup the JTA transaction manager.
-        jndiServer.start();
-        // Bind JTA implementation with default names
-        JNDIManager.bindJTAImplementation();
+    // Starts standalone JNDI server used by Gemfire to lookup global transactions.
+    // Gemfire uses JNDI java:/TransactionManager name to lookup the JTA transaction manager.
+    // The narayanaNamingServer also pre-bind all narayana transaction managers.
+    @Bean(name = "NarayanaNamingServer")
+    @ConditionalOnMissingBean(NamingServer.class)
+//    @ConditionalOnBean(TransactionManager.class)
+    public NarayanaNamingServerFactoryBean narayanaNamingServer(TransactionManager tm) {
+        System.out.println(tm.getClass().getName());
+        return new NarayanaNamingServerFactoryBean();
     }
 
     @Autowired
@@ -75,9 +77,6 @@ public class SampleNarayanaApplication implements CommandLineRunner {
                 .set("log-level", "info")
                 .set("jmx-manager", "false")
                 .set("jmx-manager-start", "true")
-//                .setWorkingDirectory("narayana-geode-core/target")
-//                .setWorkingDirectory("target")
-
                 .setMemberName("server1")
                 .setServerPort(40406)
                 .build();
@@ -104,6 +103,5 @@ public class SampleNarayanaApplication implements CommandLineRunner {
         LOG.info("JAP entry count is still " + transactionalAccountService.jpaEntryCount());
 
         serverLauncher.stop();
-        jndiServer.stop();
     }
 }

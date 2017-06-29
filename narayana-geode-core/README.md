@@ -2,7 +2,7 @@
 
 Library that helps to run Geode/Gemfire as a Last Resource Commit in a global JTA transactions run by a standalone Narayana JTA server.
 
-It uses the `NamingBeanImpl` standalone JNDI server to bind the Narayana TransactionManager under `java:/TransactionManager`.
+It uses the `SingletonNamingServer` standalone JNDI server to bind the Narayana TransactionManager under `java:/TransactionManager`.
 
 To enlist the Geode as Last Resource Commit, from within the global transaction run: `NarayanaGeodeSupport.enlistGeodeAsLastCommitResource()`.
  
@@ -13,34 +13,34 @@ private static NamingBeanImpl jndiServer = new NamingBeanImpl();
 
     public static void main(String[] args) throws Exception {
 
-        // 1.1 Start the JNDI server
-        jndiServer.start();
+        // Bootstrap a standalone JNDI server
+        SingletonNamingServer jndiServer = new SingletonNamingServer();
 
         // Bind JTA TM implementations with default names. Concerning Geode, this bind will register the
-        // Narayana Transaction Manager under name "java:/TransactionManager"
+        // Narayana Transaction Manager under name "java:/TransactionManager".
         JNDIManager.bindJTAImplementation();
                 
-        // Obtain the Geode Region instance
-        // ..........
+        // Obtain a Geode Region instance.
+        // .........
         
-        // Start Narayana JTA transaction
+        // Start Narayana JTA transaction.
         UserTransaction jta = com.arjuna.ats.jta.UserTransaction.userTransaction();
-        jta.begin();        
+        jta.begin();
         
-        // Enlist Geode as Last Resource Commit Resource
+        // Enlist Geode as Last Resource Commit Resource.
         NarayanaGeodeSupport.enlistGeodeAsLastCommitResource();
 
-        // Create adn use Global transactions
-        // ........................
+        // Create and use other global transaction resources (JPA, JMS ...).
+        // .........
         
         // Perform Geode put
         region.put("666", 666);
 
-        // Commit the Narayana JTA transaction
+        // Commit the Narayana JTA transaction.
         jta.commit();
 
-        // Stop the JNDI server
-        jndiServer.stop();        
+        // Stop the JNDI server.
+        jndiServer.destroy();
     }
 
 ```
