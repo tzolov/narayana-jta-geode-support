@@ -169,12 +169,42 @@
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>geode</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.apache.geode</groupId>
+                    <artifactId>geode-core</artifactId>
+                    <version>${geode.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>gemfire</id>
+            <dependencies>
+                <dependency>
+                    <groupId>io.pivotal.gemfire</groupId>
+                    <artifactId>geode-core</artifactId>
+                    <version>${gemfire.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+            <repositories>
+                <repository>
+                    <id>gemfire-release-repo</id>
+                    <name>Pivotal GemFire Release Repository</name>
+                    <url>https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire</url>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
+
     <repositories>
-        <repository>
-            <id>gemfire-release-repo</id>
-            <name>Pivotal GemFire Release Repository</name>
-            <url>https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire</url>
-        </repository>
         <repository>
             <id>jboss-release</id>
             <name>JBoss Release</name>
