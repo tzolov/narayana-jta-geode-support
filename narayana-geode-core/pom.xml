@@ -6,12 +6,12 @@
     <parent>
         <artifactId>narayana-geode-parent</artifactId>
         <groupId>io.datalake.geode.jta</groupId>
-        <version>0.1.6</version>
+        <version>0.1.7-SNAPSHOT</version>
     </parent>
 
     <packaging>jar</packaging>
     <artifactId>narayana-geode-core</artifactId>
-    <version>0.1.6</version>
+    <version>0.1.7-SNAPSHOT</version>
 
     <name>narayana-geode-core</name>
 
