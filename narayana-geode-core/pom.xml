@@ -38,7 +38,7 @@
     </licenses>
 
     <url>https://github.com/tzolov/narayana-jta-geode-support</url>
-    
+
     <properties>
         <gemfire.version>9.0.4</gemfire.version>
         <version.jnpserver>5.0.3.GA</version.jnpserver>
