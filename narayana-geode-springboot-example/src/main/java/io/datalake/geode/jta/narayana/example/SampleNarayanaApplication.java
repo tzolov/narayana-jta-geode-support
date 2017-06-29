@@ -22,24 +22,17 @@
 package io.datalake.geode.jta.narayana.example;
 
 import io.datalake.geode.jta.narayana.NarayanaLastResourceCommitOptimization;
-import io.datalake.geode.jta.narayana.NarayanaNamingServerFactoryBean;
 import org.apache.geode.cache.Cache;
 import org.apache.geode.cache.CacheFactory;
 import org.apache.geode.cache.Region;
 import org.apache.geode.distributed.ServerLauncher;
-import org.jnp.server.NamingServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import javax.transaction.TransactionManager;
 
 import static org.apache.geode.cache.DataPolicy.PARTITION;
 
@@ -52,16 +45,6 @@ import static org.apache.geode.cache.DataPolicy.PARTITION;
 public class SampleNarayanaApplication implements CommandLineRunner {
 
     private static final Logger LOG = LoggerFactory.getLogger(SampleNarayanaApplication.class);
-
-    // Starts standalone JNDI server used by Gemfire to lookup global transactions.
-    // Gemfire uses JNDI java:/TransactionManager name to lookup the JTA transaction manager.
-    // The narayanaNamingServer also pre-bind all narayana transaction managers.
-//    @Bean(name = "NarayanaNamingServer")
-//    @ConditionalOnMissingBean(NamingServer.class)
-//    public NarayanaNamingServerFactoryBean narayanaNamingServer(TransactionManager tm) {
-//        System.out.println(tm.getClass().getName());
-//        return new NarayanaNamingServerFactoryBean();
-//    }
 
     @Autowired
     private AccountService transactionalAccountService;
@@ -100,8 +83,22 @@ public class SampleNarayanaApplication implements CommandLineRunner {
             // Log message to let test case know that exception was thrown
             LOG.error(ex.getMessage());
         }
+
         LOG.info("JAP entry count is still " + transactionalAccountService.jpaEntryCount());
 
         serverLauncher.stop();
     }
+
+// If you disable @NarayanaLastResourceCommitOptimization but still want Geode/Gemfire to participate as
+// javax.transaction.Synchronization resource than you need to add this been to your @Configuration definitions.
+// It stats an standalone JNDI server and binds in the Narayana TransactionManager so it can be looked up by Geode.
+/*
+    @Bean(name = "NarayanaNamingServer")
+    @ConditionalOnMissingBean(NamingServer.class)
+    public NarayanaNamingServerFactoryBean narayanaNamingServer(TransactionManager tm) {
+        System.out.println(tm.getClass().getName());
+        return new NarayanaNamingServerFactoryBean();
+    }
+*/
+
 }

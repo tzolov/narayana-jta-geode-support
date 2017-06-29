@@ -52,3 +52,19 @@ The `narayana-geode-springboot` can be resolved from the `JCentral` or from the 
         <url>http://jcenter.bintray.com</url>
     </repository>
 ```
+If the `@NarayanaLastResourceCommitOptimization` is not set but is required Geode/Gemfire to participate as
+`javax.transaction.Synchronization` resource in the JTA transactions than add the following `@Been` definition to your 
+`@Configuration` definitions.
+
+```java
+    @Bean(name = "NarayanaNamingServer")
+    @ConditionalOnMissingBean(NamingServer.class)
+    public NarayanaNamingServerFactoryBean narayanaNamingServer(TransactionManager tm) {
+        System.out.println(tm.getClass().getName());
+        return new NarayanaNamingServerFactoryBean();
+    }
+```
+The `NarayanaNamingServer` will start a standalone JNDI server and will bind the Narayana TransactionManager. Later 
+allows Geode/Gemfire to find and participate in JTA transaction as `javax.transaction.Synchronization` resource.
+Note that the execution order of XA and non-XA resources in the transactions is undefined.   
+ 
