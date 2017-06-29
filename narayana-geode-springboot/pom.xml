@@ -5,12 +5,12 @@
     <parent>
         <artifactId>narayana-geode-parent</artifactId>
         <groupId>io.datalake.geode.jta</groupId>
-        <version>0.1.5-SNAPSHOT</version>
+        <version>0.1.5</version>
     </parent>
 
     <artifactId>narayana-geode-springboot</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.5-SNAPSHOT</version>
+    <version>0.1.5</version>
 
     <properties>
         <java.version>1.8</java.version>
@@ -24,7 +24,7 @@
         <dependency>
             <groupId>io.datalake.geode.jta</groupId>
             <artifactId>narayana-geode-core</artifactId>
-            <version>0.1.5-SNAPSHOT</version>
+            <version>0.1.5</version>
         </dependency>
 
         <dependency>
