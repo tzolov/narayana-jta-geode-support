@@ -12,6 +12,8 @@
     <description>Set of libraries, providing a seamless integration of Geode/Gemfire and the Narayana
         standalone JTA server. Geode/Gemfire can be run as Last Resource Commit Optimization.</description>
 
+    <url>https://github.com/tzolov/narayana-jta-geode-support</url>
+
     <developers>
         <developer>
             <name>Christian Tzolov</name>
