@@ -3,15 +3,20 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.datalake.geode.jta</groupId>
-    <artifactId>narayana-geode-parent</artifactId>
+    <artifactId>narayana-geode</artifactId>
     <packaging>pom</packaging>
     <version>0.1.7-SNAPSHOT</version>
+
+    <name>narayana-geode</name>
+
+    <description>Set of libraries, providing a seamless integration of Geode/Gemfire and the Narayana
+        standalone JTA server. Geode/Gemfire can be run as Last Resource Commit Optimization.</description>
 
     <developers>
         <developer>
             <name>Christian Tzolov</name>
             <email>christian.tzolov@gmail.com</email>
-            <organization>Datalake.io</organization>
+            <organization>datalake.io</organization>
             <organizationUrl>http://datalake.io</organizationUrl>
         </developer>
     </developers>

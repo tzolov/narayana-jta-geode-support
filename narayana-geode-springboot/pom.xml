@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>narayana-geode-parent</artifactId>
+        <artifactId>narayana-geode</artifactId>
         <groupId>io.datalake.geode.jta</groupId>
         <version>0.1.7-SNAPSHOT</version>
     </parent>
@@ -11,6 +11,31 @@
     <artifactId>narayana-geode-springboot</artifactId>
     <packaging>jar</packaging>
     <version>0.1.7-SNAPSHOT</version>
+
+    <name>narayana-geode-springboot</name>
+
+    <description>Provides a seamless integration of Geode/Gemfire and the Narayana
+        standalone JTA server and LRCO support. It extends the core narayana-geode-core package adding
+        Spring and SpringBoot support like auto-configuration and @NarayanaLastResourceCommitOptimization
+        annotation. To be used in SpringBoot and Spring Data Gemfire projects.
+    </description>
+
+    <developers>
+        <developer>
+            <name>Christian Tzolov</name>
+            <email>christian.tzolov@gmail.com</email>
+            <organization>datalake.io</organization>
+            <organizationUrl>http://datalake.io</organizationUrl>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
     <properties>
         <java.version>1.8</java.version>
