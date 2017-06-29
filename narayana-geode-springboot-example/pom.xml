@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>narayana-geode-springboot-example</artifactId>
-    <version>0.1.7</version>
+    <version>0.1.8-SNAPSHOT</version>
 
     <properties>
         <java.version>1.8</java.version>
@@ -21,7 +21,7 @@
         <dependency>
             <groupId>io.datalake.geode.jta</groupId>
             <artifactId>narayana-geode-springboot</artifactId>
-            <version>0.1.7</version>
+            <version>0.1.8-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -130,9 +130,4 @@
             <url>http://dl.bintray.com/big-data/maven</url>
         </repository>
     </repositories>
-
-
-  <scm>
-    <tag>narayana-geode-0.1.7</tag>
-  </scm>
 </project>
