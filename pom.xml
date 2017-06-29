@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.datalake.geode.jta</groupId>
     <artifactId>narayana-geode-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.1-SNAPSHOT</version>
 
     <properties>
         <gemfire.version>9.0.4</gemfire.version>
@@ -42,7 +41,7 @@
     <distributionManagement>
         <repository>
             <id>bintray-bigdata</id>
-            <url>https://api.bintray.com/maven/big-data/maven/narayana-jta-geode-support</url>
+            <url>https://api.bintray.com/maven/big-data/maven/narayana-jta-geode-support/;publish=1</url>
         </repository>
     </distributionManagement>
 
@@ -108,19 +107,6 @@
         </dependencies>
     </dependencyManagement>
 
-    <repositories>
-        <repository>
-            <id>gemfire-release-repo</id>
-            <name>Pivotal GemFire Release Repository</name>
-            <url>https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire</url>
-        </repository>
-        <repository>
-            <id>jboss-release</id>
-            <name>JBoss Release</name>
-            <url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
-        </repository>
-    </repositories>
-
     <build>
         <plugins>
             <plugin>
@@ -167,6 +153,51 @@
                     </dependency>
                 </dependencies>
             </dependencyManagement>
+            <repositories>
+                <repository>
+                    <id>gemfire-release-repo</id>
+                    <name>Pivotal GemFire Release Repository</name>
+                    <url>https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire</url>
+                </repository>
+            </repositories>
+        </profile>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
+
+    <repositories>
+        <repository>
+            <id>jboss-release</id>
+            <name>JBoss Release</name>
+            <url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
+        </repository>
+    </repositories>
+
 </project>
