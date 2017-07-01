@@ -60,22 +60,41 @@ public class NarayanaGeodeLastCommitResource implements LastResourceCommitOptimi
     private volatile TransactionId tid;
     private volatile boolean initDone = false;
 
+    /**
+     * If the resource manager did not commit the transaction and the parameter onePhase is set to true, the resource
+     * manager may throw one of the XA_RB* exceptions.
+     * Upon return, the resource manager has rolled back the branch's work and has released all held resources.
+     *
+     * @param xid      A global transaction identifier
+     * @param onePhase If true, the resource manager should use a one-phase commit protocol to commit the work done on
+     *                 behalf of xid.
+     * @throws XAException An error has occurred. Possible XAExceptions are XA_HEURHAZ, XA_HEURCOM, XA_HEURRB,
+     *                     XA_HEURMIX, XAER_RMERR, XAER_RMFAIL, XAER_NOTA, XAER_INVAL, or XAER_PROTO.*
+     */
     @Override
-    public void commit(Xid xid, boolean b) throws XAException {
+    public void commit(Xid xid, boolean onePhase) throws XAException {
         LogWriter logger = this.cache.getLogger();
         if (logger.fineEnabled()) {
             logger.fine("NarayanaGeodeLastCommitResource:invoked commit");
         }
 
+        if (!onePhase) {
+            if (logger.warningEnabled()) {
+                logger.warning("The two-phase commit is not Supported but the onePhase flag is:" + onePhase);
+            }
+        }
+
         TXStateProxy tsp = this.gfTxMgr.getTXState();
+
         if (tsp != null && this.tid != tsp.getTransactionId()) {
-            throw new IllegalStateException("Local Transaction associated with Tid = " + this.tid + " attempting to commit a different transaction");
+            throw new IllegalStateException("Local Transaction associated with Tid = " + this.tid + " attempting to " +
+                    "commit a different transaction");
         } else {
             try {
                 this.gfTxMgr.commit();
                 this.tid = null;
-            } catch (Exception var4) {
-                throw new XAException(var4.toString());
+            } catch (Exception e) {
+                throw new XAException(e.toString());
             }
         }
     }
@@ -100,11 +119,19 @@ public class NarayanaGeodeLastCommitResource implements LastResourceCommitOptimi
         return xaResource instanceof NarayanaGeodeLastCommitResource;
     }
 
+    /**
+     * If an XAResource.prepare method is called on an RM that supports only one- phase commit, then the RM should
+     * throw an XAException with XAER_PROTO or XA_RB* flag. (JCA ver.1.6, Chapter 7, page 7-17).
+     */
     @Override
     public int prepare(Xid xid) throws XAException {
         throw new XAException("Prepare called on Last Resource Txt!" + xid);
     }
 
+    /**
+     * The RM should return an empty list of XIDs for XAResource.recover, because the RM is not required to maintain
+     * stable knowledge about transaction branches. (JCA ver.1.6, Chapter 7, page 7-17).
+     */
     @Override
     public Xid[] recover(int i) throws XAException {
         return new Xid[0];

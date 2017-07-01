@@ -68,6 +68,8 @@ public class SampleNarayanaApplication implements CommandLineRunner {
 
         Cache cache = new CacheFactory().create();
 
+        cache.setCopyOnRead(true);
+
         Region<String, Account> region = cache.<String, Account>createRegionFactory()
                 .setDataPolicy(PARTITION)
                 .create("testRegion");
