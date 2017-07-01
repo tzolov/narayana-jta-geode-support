@@ -21,11 +21,11 @@
 
 package io.datalake.geode.jta.narayana.example;
 
+import com.gemstone.gemfire.cache.Cache;
+import com.gemstone.gemfire.cache.CacheFactory;
+import com.gemstone.gemfire.cache.Region;
+import com.gemstone.gemfire.distributed.ServerLauncher;
 import io.datalake.geode.jta.narayana.NarayanaLastResourceCommitOptimization;
-import org.apache.geode.cache.Cache;
-import org.apache.geode.cache.CacheFactory;
-import org.apache.geode.cache.Region;
-import org.apache.geode.distributed.ServerLauncher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import static org.apache.geode.cache.DataPolicy.PARTITION;
+import static com.gemstone.gemfire.cache.DataPolicy.PARTITION;
+
 
 /**
  * @author Christian Tzolov (christian.tzolov@gmail.com)

@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.datalake.geode.jta</groupId>
-    <artifactId>narayana-geode</artifactId>
+    <artifactId>narayana-gemfire82</artifactId>
     <packaging>pom</packaging>
-    <version>0.1.11-SNAPSHOT</version>
+    <version>0.1.10-SNAPSHOT</version>
 
-    <name>narayana-geode</name>
+    <name>narayana-gemfire82</name>
 
     <description>Set of libraries, providing a seamless integration of Geode/Gemfire and the Narayana
-        standalone JTA server. Geode/Gemfire can be run as Last Resource Commit Optimization.</description>
+        standalone JTA server. Geode/Gemfire can be run as Last Resource Commit Optimization.
+    </description>
 
     <url>https://github.com/tzolov/narayana-jta-geode-support</url>
 
@@ -46,8 +48,7 @@
     </distributionManagement>
 
     <properties>
-        <gemfire.version>9.0.4</gemfire.version>
-        <geode.version>1.1.1</geode.version>
+        <gemfire.version>8.2.5</gemfire.version>
         <version.jnpserver>5.0.3.GA</version.jnpserver>
         <narayana.version>5.6.2.Final</narayana.version>
         <jboss-transaction-spi.version>7.5.2.Final</jboss-transaction-spi.version>
@@ -108,6 +109,14 @@
             </dependency>
 
             <dependency>
+                <groupId>com.gemstone.gemfire</groupId>
+                <artifactId>gemfire</artifactId>
+                <version>${gemfire.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+
+            <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${version.junit}</version>
@@ -144,38 +153,6 @@
 
     <profiles>
         <profile>
-            <id>geode</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>org.apache.geode</groupId>
-                    <artifactId>geode-core</artifactId>
-                    <version>${geode.version}</version>
-                    <scope>provided</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
-            <id>gemfire</id>
-            <dependencies>
-                <dependency>
-                    <groupId>io.pivotal.gemfire</groupId>
-                    <artifactId>geode-core</artifactId>
-                    <version>${gemfire.version}</version>
-                    <scope>provided</scope>
-                </dependency>
-            </dependencies>
-            <repositories>
-                <repository>
-                    <id>gemfire-release-repo</id>
-                    <name>Pivotal GemFire Release Repository</name>
-                    <url>https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire</url>
-                </repository>
-            </repositories>
-        </profile>
-        <profile>
             <id>release</id>
             <build>
                 <plugins>
@@ -211,6 +188,11 @@
             <id>jboss-release</id>
             <name>JBoss Release</name>
             <url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
+        </repository>
+        <repository>
+            <id>gemfire-release-repo</id>
+            <name>Pivotal GemFire Release Repository</name>
+            <url>https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire</url>
         </repository>
     </repositories>
 

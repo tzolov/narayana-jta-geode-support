@@ -21,7 +21,7 @@
 
 package io.datalake.geode.jta.narayana.example;
 
-import org.apache.geode.cache.Region;
+import com.gemstone.gemfire.cache.Region;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;

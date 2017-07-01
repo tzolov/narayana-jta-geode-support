@@ -22,13 +22,13 @@
 package io.datalake.geode.jta.narayana;
 
 import com.arjuna.ats.jta.resources.LastResourceCommitOptimisation;
-import org.apache.geode.LogWriter;
-import org.apache.geode.cache.CacheFactory;
-import org.apache.geode.cache.TransactionId;
-import org.apache.geode.internal.cache.GemFireCacheImpl;
-import org.apache.geode.internal.cache.TXManagerImpl;
-import org.apache.geode.internal.cache.TXStateProxy;
-import org.apache.geode.internal.i18n.LocalizedStrings;
+import com.gemstone.gemfire.LogWriter;
+import com.gemstone.gemfire.cache.CacheFactory;
+import com.gemstone.gemfire.cache.TransactionId;
+import com.gemstone.gemfire.internal.cache.GemFireCacheImpl;
+import com.gemstone.gemfire.internal.cache.TXManagerImpl;
+import com.gemstone.gemfire.internal.cache.TXStateProxy;
+import com.gemstone.gemfire.internal.i18n.LocalizedStrings;
 
 import javax.transaction.SystemException;
 import javax.transaction.TransactionManager;
@@ -48,7 +48,7 @@ import javax.transaction.xa.Xid;
  * <p>
  * <p>
  * Note: To large extend the {@link NarayanaGeodeLastCommitResource} implementation reuses the
- * {@link org.apache.geode.internal.ra.spi.JCALocalTransaction JCALocalTransaction} code:
+ * {@link com.gemstone.gemfire.internal.ra.spi.JCALocalTransaction} code:
  * https://github.com/apache/geode/blob/develop/geode-core/src/jca/java/org/apache/geode/internal/ra/spi/JCALocalTransaction.java
  *
  * @author Christian Tzolov (christian.tzolov@gmail.com)

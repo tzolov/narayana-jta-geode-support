@@ -26,12 +26,12 @@ import com.arjuna.ats.internal.jta.transaction.arjunacore.AtomicAction;
 import com.arjuna.ats.internal.jta.transaction.arjunacore.TransactionImple;
 import com.arjuna.ats.jta.transaction.Transaction;
 import com.arjuna.ats.jta.utils.JNDIManager;
-import org.apache.geode.cache.Cache;
-import org.apache.geode.cache.CacheFactory;
-import org.apache.geode.cache.Region;
-import org.apache.geode.distributed.ServerLauncher;
-import org.apache.geode.internal.cache.TXManagerImpl;
-import org.apache.geode.internal.cache.TXStateProxy;
+import com.gemstone.gemfire.cache.Cache;
+import com.gemstone.gemfire.cache.CacheFactory;
+import com.gemstone.gemfire.cache.Region;
+import com.gemstone.gemfire.distributed.ServerLauncher;
+import com.gemstone.gemfire.internal.cache.TXManagerImpl;
+import com.gemstone.gemfire.internal.cache.TXStateProxy;
 import org.jnp.server.SingletonNamingServer;
 import org.junit.*;
 
@@ -41,7 +41,7 @@ import javax.transaction.TransactionManager;
 import java.lang.reflect.Field;
 import java.util.Map;
 
-import static org.apache.geode.cache.DataPolicy.PARTITION;
+import static com.gemstone.gemfire.cache.DataPolicy.PARTITION;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNull;

@@ -21,9 +21,9 @@
 
 package io.datalake.geode.jta.narayana;
 
-import org.apache.geode.cache.Cache;
-import org.apache.geode.cache.GemFireCache;
-import org.apache.geode.cache.client.ClientCache;
+import com.gemstone.gemfire.cache.Cache;
+import com.gemstone.gemfire.cache.GemFireCache;
+import com.gemstone.gemfire.cache.client.ClientCache;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
