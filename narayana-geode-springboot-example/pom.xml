@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>narayana-gemfire82-springboot-example</artifactId>
-    <version>0.1.10-SNAPSHOT</version>
+    <version>0.1.10</version>
 
     <properties>
         <java.version>1.8</java.version>
@@ -28,7 +28,7 @@
         <dependency>
             <groupId>io.datalake.geode.jta</groupId>
             <artifactId>narayana-gemfire82-springboot</artifactId>
-            <version>0.1.10-SNAPSHOT</version>
+            <version>0.1.10</version>
         </dependency>
 
         <dependency>
@@ -103,4 +103,8 @@
             <url>https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire</url>
         </repository>
     </repositories>
+
+  <scm>
+    <tag>narayana-gemfire82-0.1.10</tag>
+  </scm>
 </project>
