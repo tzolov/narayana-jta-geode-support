@@ -6,12 +6,12 @@
     <parent>
         <artifactId>narayana-gemfire82</artifactId>
         <groupId>io.datalake.geode.jta</groupId>
-        <version>0.1.10</version>
+        <version>0.1.11-SNAPSHOT</version>
     </parent>
 
     <packaging>jar</packaging>
     <artifactId>narayana-gemfire82-core</artifactId>
-    <version>0.1.10</version>
+    <version>0.1.11-SNAPSHOT</version>
 
     <name>narayana-gemfire82-core</name>
 

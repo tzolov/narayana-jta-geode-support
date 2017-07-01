@@ -5,12 +5,12 @@
     <parent>
         <artifactId>narayana-gemfire82</artifactId>
         <groupId>io.datalake.geode.jta</groupId>
-        <version>0.1.10</version>
+        <version>0.1.11-SNAPSHOT</version>
     </parent>
 
     <artifactId>narayana-gemfire82-springboot</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.10</version>
+    <version>0.1.11-SNAPSHOT</version>
 
     <name>narayana-gemfire82-springboot</name>
 
@@ -59,7 +59,7 @@
         <dependency>
             <groupId>io.datalake.geode.jta</groupId>
             <artifactId>narayana-gemfire82-core</artifactId>
-            <version>0.1.10</version>
+            <version>0.1.11-SNAPSHOT</version>
         </dependency>
 
         <dependency>
