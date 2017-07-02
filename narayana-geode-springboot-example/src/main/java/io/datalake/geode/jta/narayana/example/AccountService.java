@@ -32,7 +32,6 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Christian Tzolov (christian.tzolov@gmail.com)
  */
 @Service
-@Transactional
 public class AccountService {
 
     private final JmsTemplate jmsTemplate;
@@ -45,6 +44,7 @@ public class AccountService {
         this.jpaRepository = accountRepository;
     }
 
+    @Transactional
     public void createAccountAndNotify(String username, Region<String, Account> region) {
 
         this.jmsTemplate.convertAndSend("accounts", username);
