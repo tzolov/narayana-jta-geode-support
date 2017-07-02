@@ -86,7 +86,7 @@ public class NarayanaLrcoConfiguration implements ImportAware {
                 .orElseThrow(() -> new IllegalStateException(String.format(
                         "The @%1$s annotation may only be used on a Spring application @%2$s class"
                                 + " that is also annotated with @%3$s with an explicit [order] set",
-                        NarayanaLastResourceCommitOptimization.class.getSimpleName(), Configuration.class.getSimpleName(),
+                        EnableGeodeNarayanaJta.class.getSimpleName(), Configuration.class.getSimpleName(),
                         EnableTransactionManagement.class.getSimpleName())));
     }
 
@@ -98,7 +98,7 @@ public class NarayanaLrcoConfiguration implements ImportAware {
                         "The @%1$s(order) attribute [%2$s] was not properly specified; Also, please make your Spring application"
                                 + " @%3$s annotated class is annotated with both @%4$s and @%1$s",
                         EnableTransactionManagement.class.getSimpleName(), String.valueOf(this.enableTransactionManagementOrder),
-                        Configuration.class.getSimpleName(), NarayanaLastResourceCommitOptimization.class.getSimpleName())));
+                        Configuration.class.getSimpleName(), EnableGeodeNarayanaJta.class.getSimpleName())));
     }
 
     /* (non-Javadoc) */

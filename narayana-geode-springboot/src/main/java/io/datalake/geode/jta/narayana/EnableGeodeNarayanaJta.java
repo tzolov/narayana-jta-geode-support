@@ -29,7 +29,7 @@ import java.lang.annotation.*;
 
 /**
  *
- * The {@link NarayanaLastResourceCommitOptimization} annotation may only be used on a Spring application
+ * The {@link EnableGeodeNarayanaJta} annotation may only be used on a Spring application
  * {@link org.springframework.context.annotation.Configuration @Configuration}
  * class that is also annotated with {@link org.springframework.transaction.annotation.EnableTransactionManagement @EnableTransactionManagement}
  * with an explicit {@link EnableTransactionManagement#order} set to value other than {@link Integer#MAX_VALUE} or {@link Integer#MIN_VALUE}.
@@ -43,7 +43,7 @@ import java.lang.annotation.*;
 @EnableAspectJAutoProxy
 @Import(NarayanaLrcoConfiguration.class)
 @SuppressWarnings("unused")
-public @interface NarayanaLastResourceCommitOptimization {
+public @interface EnableGeodeNarayanaJta {
 }
 
 

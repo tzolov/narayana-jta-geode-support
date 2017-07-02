@@ -16,7 +16,7 @@
 
     <description>Provides a seamless integration of Geode/Gemfire and the Narayana
         standalone JTA server and LRCO support. It extends the core narayana-geode-core package adding
-        Spring and SpringBoot support like auto-configuration and @NarayanaLastResourceCommitOptimization
+        Spring and SpringBoot support like auto-configuration and @EnableGeodeNarayanaJta
         annotation. To be used in SpringBoot and Spring Data Gemfire projects.
     </description>
 
