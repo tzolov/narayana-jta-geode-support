@@ -25,7 +25,7 @@ import com.gemstone.gemfire.cache.Cache;
 import com.gemstone.gemfire.cache.CacheFactory;
 import com.gemstone.gemfire.cache.Region;
 import com.gemstone.gemfire.distributed.ServerLauncher;
-import io.datalake.geode.jta.narayana.NarayanaLastResourceCommitOptimization;
+import io.datalake.geode.jta.narayana.EnableGeodeNarayanaJta;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ import static com.gemstone.gemfire.cache.DataPolicy.PARTITION;
  * @author Christian Tzolov (christian.tzolov@gmail.com)
  */
 @SpringBootApplication
-@NarayanaLastResourceCommitOptimization
+@EnableGeodeNarayanaJta
 @EnableTransactionManagement(order = 1)
 public class SampleNarayanaApplication implements CommandLineRunner {
 
@@ -92,7 +92,7 @@ public class SampleNarayanaApplication implements CommandLineRunner {
         serverLauncher.stop();
     }
 
-// If you disable @NarayanaLastResourceCommitOptimization but still want Geode/Gemfire to participate as
+// If you disable @EnableGeodeNarayanaJta but still want Geode/Gemfire to participate as
 // javax.transaction.Synchronization resource than you need to add this been to your @Configuration definitions.
 // It stats an standalone JNDI server and binds in the Narayana TransactionManager so it can be looked up by Geode.
 /*
