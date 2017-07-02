@@ -24,6 +24,7 @@ package io.datalake.geode.jta.narayana;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -53,9 +54,15 @@ public class NarayanaLrcoAspect implements Ordered {
     @Value("${spring.jta.narayana.onePhaseCommit:false}")
     private boolean jtaNarayanaOnePhaseCommitEnabled;
 
+    @Pointcut("@within(org.springframework.transaction.annotation.Transactional)")
+    protected void atTransactionalType() {}
+
+    @Pointcut("@annotation(org.springframework.transaction.annotation.Transactional)")
+    protected void atTransactionalMethod() {}
+
     /* (non-Javadoc) */
-    @Before("@within(transactional)")
-    public void doEnableGeodeNarayanaLastResourceCommitOptimization(Transactional transactional) {
+    @Before("atTransactionalType() || atTransactionalMethod()")
+    public void doEnableGeodeNarayanaLastResourceCommitOptimization() {
 
         if (jtaNarayanaOnePhaseCommitEnabled) {
             if (logger.isDebugEnabled()) {

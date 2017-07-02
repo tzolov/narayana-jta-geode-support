@@ -29,7 +29,13 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 
 /**
+ * Manages the lifecycle of the Narayana standalone JNDI server. It start and stop the JNDI server
+ * and binds the Narayana transaction manager to known context names.
+ * <p>
+ * Note: inspired from John Blum's Account example application!
+ *
  * @author Christian Tzolov (christian.tzolov@gmail.com)
+ * @author John Blum
  */
 public class NarayanaNamingServerFactoryBean implements FactoryBean<NamingServer>,
         InitializingBean, DisposableBean {

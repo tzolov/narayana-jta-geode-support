@@ -35,7 +35,13 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * This post-processor ensures that the SDG is initialized after Narayana JTA TM has been bound
+ * to the standalone JNDI server!
+ *
+ * Note: inspired from John Blum's Account example application!
+ *
  * @author Christian Tzolov (christian.tzolov@gmail.com)
+ * @author John Blum
  */
 public class GeodeDependsOnBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 
