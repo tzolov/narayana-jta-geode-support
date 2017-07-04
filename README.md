@@ -11,6 +11,9 @@ Also Narayana supports [Last Resource Commit Optiomization](http://narayana.io//
 The `narayana-geode` extends the existing Geode JTA support by integrating a standalone (open-source) JTA provider and 
 enabling LRCO for transaction-atomicity and data-consistency. The utility includes two sub-projects:
 
+The [Apache Geode(GemFire) + Narayana JTA = Global Transactions with Last-Resource Optimization](http://blog.tzolov.net/2017/07/apache-geode-gemfire-narayana-jta.html?view=sidebar)
+ explains the problem, the implemented solution and provides some how-use tips. 
+
 #### Narayana Geode/Gemfire Core 
 The [narayana-geode-core](./narayana-geode-core) library uses minimal external dependencies. Only Narayana and the 
 Apache Geode/Gemfire APIs are needed (e.g. no dependencies on Spring or Spring Data Gemfire and so.)
@@ -33,9 +36,6 @@ Currently `narayana-geode` support `Gemfire 8.2.x`, `Gemfire 9.0.x` and `Geode 1
 | io.datalake.geode.jta | narayana-geode-springboot     | 0.1.11+     | Apache Geode 1.1.x or newer, Gemfire 9.0.4 or newer, SpringBoot 1.5.4 or newer. No SDG GA for this Geode/Gemfire version yet. |
 | io.datalake.geode.jta | narayana-gemfire82-core       | 0.1.11+     | Gemfire 8.2.x  |
 | io.datalake.geode.jta | narayana-gemfire82-springboot | 0.1.11+     | Gemfire 8.2.x, SpringBoot 1.5.4 or newer, Spring Data Gemfire 1.9.4  |
-
-#### Documentation
-The following blog describes the problem and explains the solution: [Apache Geode (GemFire) + Narayana JTA = Global Transactions with Last-Resource Optimization](http://blog.tzolov.net/2017/07/apache-geode-gemfire-narayana-jta.html?view=sidebar)
 
 #### Build
 To build the projects run
