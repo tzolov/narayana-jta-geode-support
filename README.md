@@ -8,17 +8,37 @@ Use Narayana JTA provider as global transaction manager to coordinate Geode/GemF
 
 Also Narayana supports [Last Resource Commit Optiomization](http://narayana.io//docs/project/index.html#d0e1859) allowing with Geode/GemFire transactions to be run as last resources.
 
+The `narayana-geode` extends the existing Geode JTA support by integrating a standalone (open-source) JTA provider and 
+enabling LRCO for transaction-atomicity and data-consistency. The utility includes two sub-projects:
+
 #### Narayana Geode/Gemfire Core 
-Instructions how to use the integration without Spring: [narayana-geode-core](./narayana-geode-core)
+The [narayana-geode-core](./narayana-geode-core) library uses minimal external dependencies. Only Narayana and the 
+Apache Geode/Gemfire APIs are needed (e.g. no dependencies on Spring or Spring Data Gemfire and so.)
+The [narayana-geode-core](./narayana-geode-core) README explains how to use the core utility. 
 
 #### Narayana Geode/Gemfire SpringBoot
-Instructions to automate the integration in SpringBoot applications: [narayana-geode-springboot](./narayana-geode-springboot)
+The [narayana-geode-springboot](./narayana-geode-springboot) library extends `narayana-geode-core` to provide seamless 
+integration with `Spring Boot` and `Spring Data Gemfire` (SDG).
 
-#### Geode/GemFire JTA Background
-Out of the box, Geode/GemFire provides the following [JTA Global Transactions](http://geode.apache.org/docs/guide/11/developing/transactions/JTA_transactions.html) integration options:
+The [narayana-geode-springboot](./narayana-geode-springboot) README explains how to use the core utility.
+ 
+#### POM dependencies 
+All `narayana-geode` dependencies can be resolved from Maven Central: [io.datalake.geode.jta](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22io.datalake.geode.jta%22) 
 
-1. Have Geode/GemFire act as JTA-like transaction manager _(deprecated)_ - This is **not JTA compliant** solution and could cause synchronization and transaction coordination problems. Deprecated in the latest Geode/GemFire releases and in its current state you better not use it as JTA manager!
-2. Coordinate with an external JTA transaction manager in a container (such as WebLogic or JBoss). Also Geode/GemFire can be set as the "last resource" while using a container. - While this approach provides a reliable JTA capabilities it requires a heavy-weight JEE container. 
+Currently `narayana-geode` support `Gemfire 8.2.x`, `Gemfire 9.0.x` and `Geode 1.1.x`. See matrix for details:
 
-The [SpringBoot Narayana](https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-jta.html#boot-features-jta-narayana) 
-integration extends option (2) by using Narayana as an external JTA manager without the need of running a J2EE container. 
+|       POM Group       |          POM Artifact         | POM Version | Compatible Apache Geode/Gemfire Versions |
+| --------------------- | ----------------------------- | ----------- | ------------------------------------------- |
+| io.datalake.geode.jta | narayana-geode-core           | 0.1.11+     | Apache Geode 1.1.x or newer, Gemfire 9.0.4 or newer  |
+| io.datalake.geode.jta | narayana-geode-springboot     | 0.1.11+     | Apache Geode 1.1.x or newer, Gemfire 9.0.4 or newer, SpringBoot 1.5.4 or newer. No SDG GA for this Geode/Gemfire version yet. |
+| io.datalake.geode.jta | narayana-gemfire82-core       | 0.1.11+     | Gemfire 8.2.x  |
+| io.datalake.geode.jta | narayana-gemfire82-springboot | 0.1.11+     | Gemfire 8.2.x, SpringBoot 1.5.4 or newer, Spring Data Gemfire 1.9.4  |
+
+#### Documentation
+The following blog describes the problem and explains the solution: [Apache Geode (GemFire) + Narayana JTA = Global Transactions with Last-Resource Optimization](http://blog.tzolov.net/2017/07/apache-geode-gemfire-narayana-jta.html?view=sidebar)
+
+#### Build
+To build the projects run
+```
+./mvn clean install
+```
