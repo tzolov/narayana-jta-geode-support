@@ -37,6 +37,48 @@ Currently `narayana-geode` support `Gemfire 8.2.x`, `Gemfire 9.0.x` and `Geode 1
 | io.datalake.geode.jta | narayana-gemfire82-core       | 0.1.11+     | Gemfire 8.2.x  |
 | io.datalake.geode.jta | narayana-gemfire82-springboot | 0.1.11+     | Gemfire 8.2.x, SpringBoot 1.5.4 or newer, Spring Data Gemfire 1.9.4  |
 
+#### Quick Start
+Show how to bootstrap a Spring Boot application that uses `Narayana` to manage global transactions between `JPA` and
+ `Gemfire (8.2.x)`. 
+
+* Use the [start.spring.io](http://bit.ly/2ugGK5U) link to generate new `Spring Boot` application, pre-configured with `Narayana`, `JPA`, `H2` and `Gemfire 8.2.x` starters.
+
+* Add `narayana-gemfire82-springboot` to the POM to enable the Narayana/Gemfire 8.2.x integration. The dependency are resolved from Maven Central 
+```xml
+<dependency>
+   <groupId>io.datalake.geode.jta</groupId>
+   <artifactId>narayana-gemfire82-springboot</artifactId>
+   <version>0.1.11</version>
+</dependency>
+```
+* Enable the Transaction Management and Geode Narayana JTA.
+```java
+ @SpringBootApplication
+ @EnableGeodeNarayanaJta
+ @EnableTransactionManagement(order = 1)
+ public class SampleNarayanaApplication implements CommandLineRunner {   ... }
+
+```
+* Use the `Spring Data` idioms to create and configure `JPA` and `Geode` repositories.
+```java
+public interface MyJpaRepository extends CrudRepository<JpaCustomer, Long> {...}
+public interface MyGeodeRepository extends CrudRepository<GeodeCustomer, Long> {...}
+```
+```java
+@SpringBootApplication
+@EnableJpaRepositories(basePackageClasses = JpaCustomer.class)
+@EnableGemfireRepositories(basePackageClasses = GeodeCustomer.class)
+...
+```
+* Use the [@Transactional](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/transaction/annotation/Transactional.html) Spring idioms to participate in a distributed transactions
+```java
+@Transactional
+public void addNewCustomer(String firstName, String lastName) {
+   jpaRepository.save(new JpaCustomer(firstName, lastName));
+   geodeRepository.save(new GeodeCustomer(666L, firstName, lastName));
+}
+```
+
 #### Build
 To build the projects run
 ```
